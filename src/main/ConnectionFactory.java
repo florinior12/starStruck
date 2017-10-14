@@ -25,7 +25,7 @@ public class ConnectionFactory {
 
     public Connection getConnection() throws SQLException {
         Connection conn = null;
-        System.out.println("Connecting to database...");
+        //System.out.println("Connecting to database...");
         conn = DriverManager.getConnection(DB_URL,USER,PASS);
         return conn;
     }

@@ -7,12 +7,15 @@ public class ProductType {
     private int stockNumber;
     private float price;
 
-    public ProductType(int idProductType, String productType, int stockNumber, float price) {
-        this.idProductType = idProductType;
+    public ProductType( String productType, int stockNumber, float price) {
+
         this.productType = productType;
         this.stockNumber = stockNumber;
         this.price = price;
     }
+
+
+
 
     public int getIdProductType() {
         return idProductType;

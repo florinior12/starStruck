@@ -1,9 +1,12 @@
 package main;
 
+import data.Product;
+import data.ProductManager;
 import data.ProductType;
 import data.ProductTypeManager;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 
 public class Tester {
@@ -11,8 +14,10 @@ public class Tester {
     public static void main(String[] args) {
         try {
 
-            ProductTypeManager productTypeManager = new ProductTypeManager();
-            productTypeManager.get(24);
+            //ProductTypeManager productTypeManager = new ProductTypeManager();
+            //productTypeManager.get(24);
+            ProductManager productManager = new ProductManager();
+            productManager.delete(productManager.get(7));
         } catch (Exception e) {
             e.printStackTrace();
         }

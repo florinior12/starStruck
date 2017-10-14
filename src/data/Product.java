@@ -7,13 +7,40 @@ public class Product {
 
     private int idProduct;
     private Date expireDate;
-    private int idProductType;
+    private String productType;
+    
+    public Product( Date expireDate, String productType) {
+        this.expireDate = expireDate;
+        this.productType = productType;
+    }
+    public Product( int idProduct, Date expireDate, String productType) {
+        this(expireDate, productType);
+        this.idProduct = idProduct;
+
+    }
 
 
+    public int getIdProduct() {
+        return idProduct;
+    }
 
+    public void setIdProduct(int idProduct) {
+        this.idProduct = idProduct;
+    }
 
+    public Date getExpireDate() {
+        return expireDate;
+    }
 
+    public void setExpireDate(Date expireDate) {
+        this.expireDate = expireDate;
+    }
 
+    public String getProductType() {
+        return productType;
+    }
 
-
+    public void setproductType(String productType) {
+        this.productType = productType;
+    }
 }
