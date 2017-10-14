@@ -6,7 +6,7 @@ import java.sql.*;
 public class ConnectionFactory {
     // JDBC driver name and database URL
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost/cafe";
+    private static final String DB_URL = "jdbc:mysql://localhost/cafe?autoReconnect=true&useSSL=false";
 
     //  Database credentials
     private static final String USER = "root";

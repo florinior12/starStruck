@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductManager {
     Connection connection = null;
@@ -64,13 +66,13 @@ public class ProductManager {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
-            if (!resultSet.isBeforeFirst()) {
+            if (resultSet.next()) {
+
+                return new Product(resultSet.getInt("id_product"), resultSet.getDate("expire_date"), resultSet.getString("product_types_type"));
+            } else {
                 System.out.println("ID " + id + " not found !");
             }
-            while (resultSet.next()) {
-                System.out.println(resultSet.getInt("id_product") + "|" + resultSet.getDate("expire_date") + "|" + resultSet.getString("product_types_type") );
-            }
-            return new Product(resultSet.getInt("id_product"), resultSet.getDate("expire_date"), resultSet.getString("product_types_type"));
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -79,15 +81,17 @@ public class ProductManager {
         return null;
     }
 
-    public void get(String type) {
+    public ArrayList get(String type) {
         try {
+            ArrayList<Product> products = new ArrayList<Product>();
             String query = "SELECT  * FROM products WHERE product_types_type = '" + type + "'";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                System.out.println(resultSet.getInt("id_product") + "|" + resultSet.getDate("expire_date") + "|" + resultSet.getString("product_types_type") );
+                products.add(new Product(resultSet.getInt("id_product"), resultSet.getDate("expire_date"), resultSet.getString("product_types_type")));
             }
+            return products;
         }catch (SQLException e) {
             System.out.println(type + " not found !");
             //e.printStackTrace();
@@ -95,22 +99,26 @@ public class ProductManager {
         finally {
             close();
         }
+        return null;
     }
 
-    public void getAll() {
+    public ArrayList getAll() {
         try {
+            ArrayList<Product> products = new ArrayList<Product>();
             String query = "SELECT  * FROM products";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                System.out.println(resultSet.getInt("id_product") + "|" + resultSet.getDate("expire_date") + "|" + resultSet.getString("product_types_type") );
+                products.add(new Product(resultSet.getInt("id_product"), resultSet.getDate("expire_date"), resultSet.getString("product_types_type")));
             }
+            return products;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close();
         }
+        return null;
     }
 
     private void close() {

@@ -8,16 +8,23 @@ import data.ProductTypeManager;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Tester {
 
     public static void main(String[] args) {
+        ArrayList<Product> products = null;
         try {
 
             //ProductTypeManager productTypeManager = new ProductTypeManager();
             //productTypeManager.get(24);
             ProductManager productManager = new ProductManager();
-            productManager.delete(productManager.get(7));
+            //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Coffee"));
+            //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Cheesecake"));
+            //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Juice"));
+
+
+            products = productManager.get("Cheesecake");
         } catch (Exception e) {
             e.printStackTrace();
         }
