@@ -21,49 +21,43 @@ public class TransactionManager {
     }
 
     public boolean add(Transaction transaction) {
-        transaction.getTransactionDate().compareTo(transaction.getProduct().getExpireDate());
-        try {
-            String query = "INSERT INTO transactions (transaction_date, customers_id_customer, products_id_product) VALUES (?,?,?)";
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setDate(1,transaction.getTransactionDate());
+        if (transaction.getTransactionDate().compareTo(transaction.getProduct().getExpireDate()) < 1) {
+            try {
+                String query = "INSERT INTO transactions (transaction_date, customers_id_customer, products_id_product) VALUES (?,?,?)";
+                connection = getConnection();
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setDate(1, transaction.getTransactionDate());
+                preparedStatement.setInt(2, transaction.getCustomer().getIdCustomer());
+                preparedStatement.setInt(3, transaction.getProduct().getIdProduct());
 
-            preparedStatement.executeUpdate();
-            System.out.println(transaction.getCustomer().getName() + " bought " + transaction.getProduct().getProductType());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close();
+                preparedStatement.executeUpdate();
+                System.out.println(transaction.getCustomer().getName() + " bought " + transaction.getProduct().getProductType());
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                close();
+            }
+        } else {
+            System.out.println("Product " + transaction.getProduct().getIdProduct() + ". " + transaction.getProduct().getProductType() + " expired");
+            return false;
         }
+
+        return false;
 
     }
 
 
 
-    public void delete(Customer customer) {
+    public Transaction getTransaction(int id) {
         try {
-            String query = "DELETE FROM customers WHERE id_customer = " + customer.getIdCustomer();
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(query);
-
-            preparedStatement.executeUpdate();
-            System.out.println(customer.getName() + " deleted succesfully from database!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close();
-        }
-    }
-
-    public Customer get(int id) {
-        try {
-            String query = "SELECT  * FROM customers WHERE id_customer=" + id;
+            String query = "SELECT  * FROM transactions WHERE id_transaction=" + id;
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
 
-                return new Customer(resultSet.getInt("id_customer"),resultSet.getString("name"));
+                return new Transaction(resultSet.getInt("id_transaction"),resultSet.getDate("transaction_date"),resultSet.getInt("customers_id_customer"), resultSet.getInt("products_id_product"));
             } else {
                 System.out.println("ID " + id + " not found !");
             }
@@ -76,19 +70,25 @@ public class TransactionManager {
         return null;
     }
 
-    public ArrayList get(String name) {
+    public ArrayList getByForeign(int id, boolean getByCustomer) {
         try {
-            ArrayList<Customer> customers = new ArrayList<Customer>();
-            String query = "SELECT  * FROM customers WHERE name = '" + name + "'";
+            ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+            String getBy;
+            if (getByCustomer)
+                getBy = "customers_id_customer";
+            else
+                getBy = "products_id_product";
+
+            String query = "SELECT  * FROM transactions WHERE " + getBy +" = '" + id + "'";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                customers.add(new Customer(resultSet.getInt("id_customer"),resultSet.getString("name")));
+                transactions.add(new Transaction(resultSet.getInt("id_transaction"),resultSet.getDate("transaction_date"),resultSet.getInt("customers_id_customer"), resultSet.getInt("products_id_product")));
             }
-            return customers;
+            return transactions;
         }catch (SQLException e) {
-            System.out.println(name + " not found !");
+            System.out.println(id + " not found !");
             //e.printStackTrace();
         }
         finally {
@@ -99,15 +99,15 @@ public class TransactionManager {
 
     public ArrayList getAll() {
         try {
-            ArrayList<Customer> customers = new ArrayList<Customer>();
-            String query = "SELECT  * FROM products";
+            ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+            String query = "SELECT  * FROM transcations";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                customers.add(new Customer(resultSet.getInt("id_customer"),resultSet.getString("name")));
+                transactions.add(new Transaction(resultSet.getInt("id_transaction"),resultSet.getDate("transaction_date"),resultSet.getInt("customers_id_customer"), resultSet.getInt("products_id_product")));
             }
-            return customers;
+            return transactions;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

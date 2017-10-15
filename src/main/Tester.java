@@ -15,7 +15,7 @@ public class Tester {
 
             //ProductTypeManager productTypeManager = new ProductTypeManager();
             //productTypeManager.get(24);
-            //ProductManager productManager = new ProductManager();
+            ProductManager productManager = new ProductManager();
             //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Coffee"));
             //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Cheesecake"));
             //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Juice"));
@@ -24,7 +24,10 @@ public class Tester {
             //products = productManager.get("Cheesecake");
 
             CustomerManager customerManager = new CustomerManager();
-            customerManager.delete(customerManager.get(2));
+            //customerManager.delete(customerManager.get(2));
+
+            TransactionManager transactionManager = new TransactionManager();
+            transactionManager.add(new Transaction(customerManager.get(1),productManager.get(9),new Date(System.currentTimeMillis())));
         } catch (Exception e) {
             e.printStackTrace();
         }
