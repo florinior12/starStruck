@@ -3,7 +3,9 @@ package main;
 import data.*;
 
 import java.sql.Date;
+import java.util.AbstractSet;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class CafeManager {
     private CouponsManager couponsManager;
@@ -26,6 +28,13 @@ public class CafeManager {
                 return false;
         return true;
 
+    }
+
+    public void updateStock() {
+        for (ProductType productType : productTypeManager.getAll()) {
+            productType.setStockNumber(productManager.get(productType.getProductType()).size());
+            productTypeManager.update(productType);
+        }
     }
 
     public boolean addCustomer(String name) {
@@ -57,6 +66,7 @@ public class CafeManager {
 
                 if (transactionManager.add(new Transaction(currentDate, type, id))) {
                     productManager.delete(product);
+                    updateStock();
                     return true;
                 }
                 else {
@@ -76,5 +86,29 @@ public class CafeManager {
             if (transaction.getTransactionDate().compareTo(new Date(System.currentTimeMillis() - days * 60 * 60 * 24 * 1000)) > -1)
                 System.out.println(transaction);
         }
+    }
+
+    public void showZeroStock() {
+        if (productTypeManager.getByStock(0)!=null)
+            for (ProductType productType : productTypeManager.getByStock(0)) {
+                System.out.println(productType);
+            }
+    }
+
+    public void showExpired() {
+        Date currentDate = new Date(System.currentTimeMillis());
+        ArrayList<ProductType> expiredTypes = new ArrayList<>();
+
+        for (ProductType productType : productTypeManager.getAll()) {
+            for (Product product : productManager.get(productType.getProductType())) {
+                if (product.getExpireDate().compareTo(currentDate) == -1)    //check if it's expired
+                    if (!expiredTypes.contains(productType))
+                        expiredTypes.add(productType);
+
+            }
+        }
+
+        for (ProductType productType:expiredTypes)
+            System.out.println(productType);
     }
 }

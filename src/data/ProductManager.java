@@ -84,7 +84,7 @@ public class ProductManager {
         return null;
     }
 
-    public ArrayList get(String type) {
+    public ArrayList<Product> get(String type) {
         try {
             ArrayList<Product> products = new ArrayList<Product>();
             String query = "SELECT  * FROM products WHERE product_types_type = '" + type + "'";

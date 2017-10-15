@@ -31,7 +31,7 @@ public class Tester {
                 System.out.println("2. Add or remove a loyal customer and their coupon");
                 System.out.println("3. Add a transaction");
                 System.out.println("4. Show sale history");
-                System.out.println("5. Show product types with a ceratin stock or with expired products");
+                System.out.println("5. Show product types with 0 stock or with expired products");
                 System.out.println("6. Cheapest/most expensive 3 products a customer can buy");
                 System.out.println("0. Exit");
                 input = scanner.nextInt();
@@ -57,11 +57,7 @@ public class Tester {
                                 waitForEnter();
                                 break;
                             case 2:
-                                System.out.println("Product type:");
-                                type = scanner.next();
-                                System.out.println("New stock:");
-                                int stock = scanner.nextInt();
-                                cafeManager.addProducts(type,stock);
+                                cafeManager.updateStock();
                                 break;
                             case 0:
                                 break;
@@ -110,11 +106,16 @@ public class Tester {
                     case 4:
                         System.out.println("For how many days?");
                         int days = scanner.nextInt();
+                        System.out.println("Sales history for last " + days + " days");
                         cafeManager.showHistory(days);
                         waitForEnter();
                         break;
                     case 5:
-
+                        System.out.println("Product types with 0 stock:");
+                        cafeManager.showZeroStock();
+                        System.out.println("Product types with expired products:");
+                        cafeManager.showExpired();
+                        waitForEnter();
                         break;
 
                     case 6:
