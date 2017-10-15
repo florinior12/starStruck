@@ -27,7 +27,12 @@ public class Tester {
             //customerManager.delete(customerManager.get(2));
 
             TransactionManager transactionManager = new TransactionManager();
-            transactionManager.add(new Transaction(customerManager.get(1),productManager.get(9),new Date(System.currentTimeMillis())));
+            //transactionManager.add(new Transaction(customerManager.get(1),productManager.get(9),new Date(System.currentTimeMillis())));
+            Transaction toFind;
+            toFind = transactionManager.getTransaction(4);
+            toFind.setCustomer(customerManager.get(toFind.getIdCustomer()));
+            toFind.setProduct(productManager.get(toFind.getIdProduct()));
+            System.out.println(toFind);
         } catch (Exception e) {
             e.printStackTrace();
         }

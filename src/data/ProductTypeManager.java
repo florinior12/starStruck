@@ -73,7 +73,7 @@ public class ProductTypeManager {
         }
     }
 
-    public void get(int id) {
+    public ProductType getById(int id) {
         try {
             String query = "SELECT  * FROM product_types WHERE id_types=" + id;
             connection = getConnection();
@@ -81,15 +81,42 @@ public class ProductTypeManager {
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("ID " + id + " not found !");
+                return null;
             }
             while (resultSet.next()) {
                 System.out.println(resultSet.getInt("id_types") + "|" + resultSet.getString("type") + "|" + resultSet.getInt("stock_number")  + "|" + resultSet.getFloat("price") );
+                return new ProductType(resultSet.getInt("id_types"), resultSet.getString("type"), resultSet.getInt("stock_number"), resultSet.getFloat("price") );
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close();
         }
+        return null;
+
+    }
+
+    public ProductType getByStock(int stock) {
+        try {
+            String query = "SELECT  * FROM product_types WHERE stock_number=" + stock;
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.isBeforeFirst()) {
+                System.out.println("ID " +   " not found !");
+                return null;
+            }
+            while (resultSet.next()) {
+                System.out.println(resultSet.getInt("id_types") + "|" + resultSet.getString("type") + "|" + resultSet.getInt("stock_number")  + "|" + resultSet.getFloat("price") );
+                return new ProductType(resultSet.getInt("id_types"), resultSet.getString("type"), resultSet.getInt("stock_number"), resultSet.getFloat("price") );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+        return null;
+
     }
 
     public void get(String type) {

@@ -42,6 +42,14 @@ public class Transaction {
         return product;
     }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
     public Date getTransactionDate() {
         return transactionDate;
     }
@@ -60,5 +68,10 @@ public class Transaction {
 
     public void setIdProduct(int idProduct) {
         this.idProduct = idProduct;
+    }
+
+    @Override
+    public String toString() {
+        return customer.getName() + " bought " + product.getProductType() + " on " + transactionDate;
     }
 }

@@ -18,8 +18,11 @@ public class ProductType {
         this.price = price;
     }
 
+    public ProductType(int idProductType, String productType, int stockNumber, float price) {
+        this(productType,stockNumber,price);
+        this.idProductType = idProductType;
 
-
+    }
 
     public int getIdProductType() {
         return idProductType;
