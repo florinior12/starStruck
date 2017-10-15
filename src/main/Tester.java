@@ -3,10 +3,6 @@ package main;
 import data.*;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Tester {
@@ -119,7 +115,9 @@ public class Tester {
                         break;
 
                     case 6:
-
+                        System.out.println("Customer ID:");
+                        int idCustomer = scanner.nextInt();
+                        cafeManager.showCheapest(idCustomer);
                         break;
                     case 0:
                         break;
@@ -131,98 +129,7 @@ public class Tester {
 
             } while (input!=0);
 
-            /*//productTypeManager.get(24);
-            ProductManager productManager = new ProductManager();
-            //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Coffee"));
-            //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Cheesecake"));
-            //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Juice"));
 
-            for (ProductType product : productTypeManager.getByStock(15)) {
-                System.out.println(product);
-            }
-            //System.out.println(productTypeManager.getById(2));
-
-
-
-            //products = productManager.get("Cheesecake");
-
-
-            //customerManager.delete(customerManager.get(2));
-
-            for (Customer product : customerManager.getAll()) {
-                System.out.println(product);
-            }
-            //TransactionManager transactionManager = new TransactionManager();
-            //transactionManager.add(new Transaction(customerManager.get(1),productManager.get(9),new Date(System.currentTimeMillis())));
-            //Transaction toFind;
-            //toFind = transactionManager.getTransaction(4);
-            //oFind.setCustomer(customerManager.get(toFind.getIdCustomer()));
-            //toFind.setProduct(productManager.get(toFind.getIdProduct()));
-            //System.out.println(toFind);*/
-
-
-
-        // the mysql insert statement
-            /*String query = " insert into product_types (type, stock_number, price)"
-                    + " values (?, ?, ?)";*/
-            /*UPDATE
-            String query = "update product_types set stock_number = ? where type = ?";
-
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
-
-            preparedStatement.setInt(1,26);
-            preparedStatement.setString(2,"coffee");
-            preparedStatement.executeUpdate();
-
-            preparedStatement.close();
-            conn.close();*/
-
-            /*
-            // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-
-            preparedStmt.setString(1,"Cheesecake");
-            preparedStmt.setInt(2,15);
-            preparedStmt.setFloat(3,2);
-
-            preparedStmt.execute();
-
-            preparedStmt.setString(1,"Juice");
-            preparedStmt.setInt(2,15);
-            preparedStmt.setFloat(3,2);
-
-            preparedStmt.execute();
-
-            preparedStmt.close();
-            conn.close();
-             */
-
-            /*
-            //STEP 4: Execute a query
-            System.out.println("Creating statement...");
-            stmt = conn.createStatement();
-            String sql;
-            sql = "SELECT id, first, last, age FROM Employees";
-            ResultSet rs = stmt.executeQuery(sql);
-
-            //STEP 5: Extract data from result set
-            while(rs.next()){
-                //Retrieve by column name
-                int id  = rs.getInt("id");
-                int age = rs.getInt("age");
-                String first = rs.getString("first");
-                String last = rs.getString("last");
-
-                //Display values
-                System.out.print("ID: " + id);
-                System.out.print(", Age: " + age);
-                System.out.print(", First: " + first);
-                System.out.println(", Last: " + last);
-            }
-            //STEP 6: Clean-up environment
-            rs.close();
-            stmt.close();
-            conn.close();*/
 
     }//end main
 

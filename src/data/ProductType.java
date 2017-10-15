@@ -1,11 +1,11 @@
 package data;
 
-public class ProductType {
+public class ProductType  {
 
     private int idProductType;
     private String productType;
     private int stockNumber;
-    private float price;
+    private Float price;
 
     public ProductType( String productType, float price) {
         this(productType,0,price);
@@ -45,7 +45,7 @@ public class ProductType {
         this.stockNumber = stockNumber;
     }
 
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
 
@@ -57,4 +57,6 @@ public class ProductType {
     public String toString() {
         return idProductType + "|" + productType + "|" + stockNumber + "|" + price;
     }
+
+
 }

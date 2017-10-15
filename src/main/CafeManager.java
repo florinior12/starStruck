@@ -3,9 +3,7 @@ package main;
 import data.*;
 
 import java.sql.Date;
-import java.util.AbstractSet;
-import java.util.ArrayList;
-import java.util.Set;
+import java.util.*;
 
 public class CafeManager {
     private CouponsManager couponsManager;
@@ -111,4 +109,47 @@ public class CafeManager {
         for (ProductType productType:expiredTypes)
             System.out.println(productType);
     }
+
+    public void showCheapest(int idCustomer) {
+        ArrayList<ProductType> productTypes = productTypeManager.getAll();
+        ArrayList<Coupon> coupons = couponsManager.getByForeign(idCustomer,true);// get customer's coupons
+        Coupon goodCoupon;
+        for (ProductType productType : productTypes) {
+            goodCoupon = null;
+            for (Coupon coupon : coupons) {
+                if (coupon.getIdProductType()==productType.getIdProductType()) {
+                    goodCoupon = coupon;
+                }
+            }
+
+            if (goodCoupon!=null)
+                productType.setPrice(productType.getPrice()*goodCoupon.getDiscount()/100);
+        }
+        Collections.sort(productTypes, new Comparator<ProductType>() {
+            @Override
+            public int compare(ProductType productType, ProductType t1) {
+                return productType.getPrice().compareTo(t1.getPrice());
+            }
+        });
+        System.out.println("Cheapest 3 products:");
+        for (int i = 0;i<3;i++){
+            System.out.println(productTypes.get(i));
+        }
+        Collections.sort(productTypes, new Comparator<ProductType>() {
+            @Override
+            public int compare(ProductType productType, ProductType t1) {
+                return t1.getPrice().compareTo(productType.getPrice());
+            }
+        });
+        System.out.println("Most expensive 3 products:");
+        for (int i = 0;i<3;i++){
+            System.out.println(productTypes.get(i));
+        }
+    }
+
+
+
+
+
+
 }
