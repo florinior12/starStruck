@@ -23,7 +23,7 @@ public class CustomerManager {
         return conn;
     }
 
-    public void add(Customer customer) {
+    public boolean add(Customer customer) {
 
         try {
             String query = "INSERT INTO customers (name) VALUES (?)";
@@ -34,10 +34,12 @@ public class CustomerManager {
             preparedStatement.executeUpdate();
             System.out.println(customer.getName()+ " added successfully!");
         } catch (SQLException e) {
-            e.printStackTrace();
+            return false;
+            //e.printStackTrace();
         } finally {
             close();
         }
+        return true;
 
     }
 

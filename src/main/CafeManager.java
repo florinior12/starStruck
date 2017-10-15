@@ -3,6 +3,7 @@ package main;
 import data.*;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class CafeManager {
     private CouponsManager couponsManager;
@@ -25,5 +26,55 @@ public class CafeManager {
                 return false;
         return true;
 
+    }
+
+    public boolean addCustomer(String name) {
+        if (customerManager.add(new Customer(name)))
+            return true;
+        else return false;
+    }
+
+    public int getIdOfLastCustomer() {
+        ArrayList<Customer> customers = customerManager.getAll();
+        return customers.get(customers.size()-1).getIdCustomer();
+    }
+
+    public boolean addCoupon(String type, float discount, int idCustomer) {
+        if (couponsManager.add(new Coupon(discount,idCustomer,productTypeManager.get(type).getIdProductType())))
+            return true;
+        else return false;
+    }
+
+    public boolean addTransaction(String type, int id) {
+        ArrayList<Product> products = productManager.get(type);
+        if (products.size()==0) {
+            System.out.println("No products of type " + type);
+            return false;
+        }
+        Date currentDate = new Date(System.currentTimeMillis());
+        for(Product product : products) {   //look in products of the same type
+            if (product.getExpireDate().compareTo(currentDate) > -1)    //check if it's not expired
+
+                if (transactionManager.add(new Transaction(currentDate, type, id))) {
+                    productManager.delete(product);
+                    return true;
+                }
+                else {
+                    System.out.println("Could not add transaction!");
+                    return false;
+                }
+
+        }
+        //if the for loop ended without any return, then all products are expired
+        System.out.println("All products of type " + type + " are expired!");
+        return false;
+
+    }
+
+    public void showHistory (int days) {
+        for (Transaction transaction : transactionManager.getAll()) {
+            if (transaction.getTransactionDate().compareTo(new Date(System.currentTimeMillis() - days * 60 * 60 * 24 * 1000)) > -1)
+                System.out.println(transaction);
+        }
     }
 }

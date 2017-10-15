@@ -34,16 +34,15 @@ public class CouponsManager {
                 preparedStatement.setInt(3, coupon.getIdProductType());
 
                 preparedStatement.executeUpdate();
-                System.out.println(coupon.getIdCoupon() + "(ID coupon) coupon for (ID customer)" + coupon.getIdCustomer());
+
                 return true;
             } catch (SQLException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                return false;
             } finally {
                 close();
             }
 
-
-        return false;
 
     }
 

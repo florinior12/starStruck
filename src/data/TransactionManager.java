@@ -23,15 +23,17 @@ public class TransactionManager {
     public boolean add(Transaction transaction) {
 
             try {
-                String query = "INSERT INTO transactions (transaction_date, customers_id_customer, products_id_product) VALUES (?,?,?)";
+                String query;
+
+                query = "INSERT INTO transactions (transaction_date, product_type, customers_id_customer ) VALUES (?,?,?)";
                 connection = getConnection();
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setDate(1, transaction.getTransactionDate());
-                preparedStatement.setInt(2, transaction.getIdCustomer());
-                preparedStatement.setInt(3, transaction.getIdProduct());
+                preparedStatement.setString(2, transaction.getproductType());
+                preparedStatement.setInt(3, transaction.getIdCustomer());
 
                 preparedStatement.executeUpdate();
-                System.out.println( transaction.getIdCustomer() + " bought " + transaction.getIdProduct());
+                System.out.println( transaction.getIdCustomer() + " bought " + transaction.getproductType());
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -54,7 +56,7 @@ public class TransactionManager {
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
 
-                return new Transaction(resultSet.getInt("id_transaction"),resultSet.getDate("transaction_date"),resultSet.getInt("customers_id_customer"), resultSet.getInt("products_id_product"));
+                return new Transaction(resultSet.getInt("id_transaction"),resultSet.getDate("transaction_date"),resultSet.getString("product_type"), resultSet.getInt("customers_id_customer"));
             } else {
                 System.out.println("ID " + id + " not found !");
             }
@@ -81,7 +83,7 @@ public class TransactionManager {
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                transactions.add(new Transaction(resultSet.getInt("id_transaction"),resultSet.getDate("transaction_date"),resultSet.getInt("customers_id_customer"), resultSet.getInt("products_id_product")));
+                transactions.add(new Transaction(resultSet.getInt("id_transaction"),resultSet.getDate("transaction_date"),resultSet.getString("product_type"),resultSet.getInt("customers_id_customer")));
             }
             return transactions;
         }catch (SQLException e) {
@@ -102,7 +104,7 @@ public class TransactionManager {
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                transactions.add(new Transaction(resultSet.getInt("id_transaction"),resultSet.getDate("transaction_date"),resultSet.getInt("customers_id_customer"), resultSet.getInt("products_id_product")));
+                transactions.add(new Transaction(resultSet.getInt("id_transaction"),resultSet.getDate("transaction_date"),resultSet.getString("product_type"),resultSet.getInt("customers_id_customer")));
             }
             return transactions;
         } catch (SQLException e) {

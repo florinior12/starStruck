@@ -6,19 +6,24 @@ public class Transaction {
     private int idTransaction;
     private Date transactionDate;
     private int idCustomer;
-    private int idProduct;
+    private String productType;
 
-    public Transaction(Date transactionDate, int idCustomer, int idProduct) {
+    public Transaction(Date transactionDate,  String productType) {
         this.transactionDate = transactionDate;
-        this.idCustomer = idCustomer;
-        this.idProduct = idProduct;
+        this.productType = productType;
     }
 
-    public Transaction(int idTransaction, Date transactionDate, int idCustomer, int idProduct) {
+    public Transaction(Date transactionDate, String productType, int idCustomer) {
+        this.transactionDate = transactionDate;
+        this.idCustomer = idCustomer;
+        this.productType = productType;
+    }
+
+    public Transaction(int idTransaction, Date transactionDate, String productType, int idCustomer) {
         this.idTransaction = idTransaction;
         this.transactionDate = transactionDate;
         this.idCustomer = idCustomer;
-        this.idProduct = idProduct;
+        this.productType = productType;
     }
 
 
@@ -39,16 +44,16 @@ public class Transaction {
         this.idCustomer = idCustomer;
     }
 
-    public int getIdProduct() {
-        return idProduct;
+    public String getproductType() {
+        return productType;
     }
 
-    public void setIdProduct(int idProduct) {
-        this.idProduct = idProduct;
+    public void setproductType(String productType) {
+        this.productType = productType;
     }
 
     @Override
     public String toString() {
-        return idTransaction + "|" + transactionDate + "|" +  idCustomer + "|" + idProduct;
+        return idTransaction + "|" + transactionDate + "|" +  idCustomer + "|" + productType;
     }
 }
