@@ -25,9 +25,6 @@ public class ProductType {
         return idProductType;
     }
 
-    public void setIdProductType(int idProductType) {
-        this.idProductType = idProductType;
-    }
 
     public String getProductType() {
         return productType;

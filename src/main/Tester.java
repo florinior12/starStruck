@@ -1,9 +1,6 @@
 package main;
 
-import data.Product;
-import data.ProductManager;
-import data.ProductType;
-import data.ProductTypeManager;
+import data.*;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -18,13 +15,16 @@ public class Tester {
 
             //ProductTypeManager productTypeManager = new ProductTypeManager();
             //productTypeManager.get(24);
-            ProductManager productManager = new ProductManager();
+            //ProductManager productManager = new ProductManager();
             //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Coffee"));
             //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Cheesecake"));
             //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Juice"));
 
 
-            products = productManager.get("Cheesecake");
+            //products = productManager.get("Cheesecake");
+
+            CustomerManager customerManager = new CustomerManager();
+            customerManager.delete(customerManager.get(2));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -24,9 +24,6 @@ public class Product {
         return idProduct;
     }
 
-    public void setIdProduct(int idProduct) {
-        this.idProduct = idProduct;
-    }
 
     public Date getExpireDate() {
         return expireDate;
