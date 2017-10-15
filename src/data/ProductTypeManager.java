@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ProductTypeManager {
     Connection connection = null;
@@ -96,20 +97,21 @@ public class ProductTypeManager {
 
     }
 
-    public ProductType getByStock(int stock) {
+    public ArrayList<ProductType> getByStock(int stock) {
         try {
             String query = "SELECT  * FROM product_types WHERE stock_number=" + stock;
+            ArrayList<ProductType> results = new ArrayList<>();
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
-                System.out.println("ID " +   " not found !");
+                System.out.println("Stock " + stock  +" not found !");
                 return null;
             }
             while (resultSet.next()) {
-                System.out.println(resultSet.getInt("id_types") + "|" + resultSet.getString("type") + "|" + resultSet.getInt("stock_number")  + "|" + resultSet.getFloat("price") );
-                return new ProductType(resultSet.getInt("id_types"), resultSet.getString("type"), resultSet.getInt("stock_number"), resultSet.getFloat("price") );
+                results.add(new ProductType(resultSet.getInt("id_types"), resultSet.getString("type"), resultSet.getInt("stock_number"), resultSet.getFloat("price") ));
             }
+            return results;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -119,14 +121,14 @@ public class ProductTypeManager {
 
     }
 
-    public void get(String type) {
+    public ProductType get(String type) {
         try {
             String query = "SELECT  * FROM product_types WHERE type = '" + type + "'";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                System.out.println(resultSet.getInt("id_types") + "|" + resultSet.getString("type") + "|" + resultSet.getInt("stock_number")  + "|" + resultSet.getFloat("price") );
+                return new ProductType(resultSet.getInt("id_types"), resultSet.getString("type"), resultSet.getInt("stock_number"), resultSet.getFloat("price") );
             }
         }catch (SQLException e) {
             System.out.println(type + " not found !");
@@ -135,22 +137,26 @@ public class ProductTypeManager {
         finally {
             close();
         }
+        return null;
     }
 
-    public void getAll() {
+    public ArrayList<ProductType> getAll() {
         try {
             String query = "SELECT  * FROM product_types";
+            ArrayList<ProductType> results = new ArrayList<>();
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                System.out.println(resultSet.getInt("id_types") + "|" + resultSet.getString("type") + "|" + resultSet.getInt("stock_number")  + "|" + resultSet.getFloat("price") );
+                results.add(new ProductType(resultSet.getInt("id_types"), resultSet.getString("type"), resultSet.getInt("stock_number"), resultSet.getFloat("price") ));
             }
+            return results;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close();
         }
+        return null;
     }
 
     private void close() {

@@ -79,7 +79,7 @@ public class CustomerManager {
         return null;
     }
 
-    public ArrayList get(String name) {
+    public ArrayList<Customer> get(String name) {
         try {
             ArrayList<Customer> customers = new ArrayList<Customer>();
             String query = "SELECT  * FROM customers WHERE name = '" + name + "'";
@@ -100,10 +100,10 @@ public class CustomerManager {
         return null;
     }
 
-    public ArrayList getAll() {
+    public ArrayList<Customer> getAll() {
         try {
             ArrayList<Customer> customers = new ArrayList<Customer>();
-            String query = "SELECT  * FROM products";
+            String query = "SELECT  * FROM customers";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();

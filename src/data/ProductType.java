@@ -53,7 +53,8 @@ public class ProductType {
         this.price = price;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return idProductType + "|" + productType + "|" + stockNumber + "|" + price;
+    }
 }

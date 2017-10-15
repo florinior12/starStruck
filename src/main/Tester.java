@@ -6,36 +6,117 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Tester {
 
     public static void main(String[] args) {
-        ArrayList<Product> products = null;
-        try {
+        int input;
+        int input2;
+        Scanner scanner = new Scanner(System.in);
+        CafeManager cafeManager = new CafeManager();
+        System.out.println("Welcome to starStruck cafe!");
+            do {
+                System.out.println("What do you wish to do?");
+                System.out.println("1. Add new products/update stock");
+                System.out.println("2. Add or remove a loyal customer and their coupon");
+                System.out.println("3. Add a transaction");
+                System.out.println("4. Show sale history");
+                System.out.println("5. Show product types with a ceratin stock or with expired products");
+                System.out.println("6. Cheapest/most expensive 3 products a customer can buy");
+                System.out.println("0. Exit");
+                input = scanner.nextInt();
+                switch (input){
+                    case 1:
 
-            //ProductTypeManager productTypeManager = new ProductTypeManager();
-            //productTypeManager.get(24);
+                        System.out.println("1. Add new products");
+                        System.out.println("2. Update stock");
+                        System.out.println("0. Exit");
+                        input2 = scanner.nextInt();
+                        switch (input2) {
+
+                            case 1:
+                                System.out.println("Product type:");
+                                String type = scanner.next();
+                                System.out.println("Amount:");
+                                int amount = scanner.nextInt();
+                                if (cafeManager.addProducts(type,amount))
+                                    System.out.println("Successfully added!");
+                                else
+                                    System.out.println("Failed to add!");
+
+                                System.out.println("Press any key to continue.");
+                                break;
+                            case 2:
+                                System.out.println("Product type:");
+                                type = scanner.next();
+                                System.out.println("New stock:");
+                                int stock = scanner.nextInt();
+                                cafeManager.addProducts(type,stock);
+                                break;
+                            case 0:
+                                break;
+                            default:
+                                System.out.println("Plese select a valid operation");
+                                break;
+                        }
+
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+
+                        break;
+                    case 5:
+
+                        break;
+
+                    case 6:
+
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        System.out.println("Please enter a valid operation");
+                        break;
+                }
+
+
+            } while (input!=0);
+
+            /*//productTypeManager.get(24);
             ProductManager productManager = new ProductManager();
             //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Coffee"));
             //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Cheesecake"));
             //productManager.add(new Product(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000), "Juice"));
 
+            for (ProductType product : productTypeManager.getByStock(15)) {
+                System.out.println(product);
+            }
+            //System.out.println(productTypeManager.getById(2));
+
+
 
             //products = productManager.get("Cheesecake");
 
-            CustomerManager customerManager = new CustomerManager();
+
             //customerManager.delete(customerManager.get(2));
 
-            TransactionManager transactionManager = new TransactionManager();
+            for (Customer product : customerManager.getAll()) {
+                System.out.println(product);
+            }
+            //TransactionManager transactionManager = new TransactionManager();
             //transactionManager.add(new Transaction(customerManager.get(1),productManager.get(9),new Date(System.currentTimeMillis())));
-            Transaction toFind;
-            toFind = transactionManager.getTransaction(4);
-            toFind.setCustomer(customerManager.get(toFind.getIdCustomer()));
-            toFind.setProduct(productManager.get(toFind.getIdProduct()));
-            System.out.println(toFind);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            //Transaction toFind;
+            //toFind = transactionManager.getTransaction(4);
+            //oFind.setCustomer(customerManager.get(toFind.getIdCustomer()));
+            //toFind.setProduct(productManager.get(toFind.getIdProduct()));
+            //System.out.println(toFind);*/
+
 
 
         // the mysql insert statement

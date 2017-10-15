@@ -40,4 +40,9 @@ public class Product {
     public void setproductType(String productType) {
         this.productType = productType;
     }
+
+    @Override
+    public String toString() {
+        return idProduct + "|" + expireDate + "|" + productType;
+    }
 }

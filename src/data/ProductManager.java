@@ -24,7 +24,7 @@ public class ProductManager {
         return conn;
     }
 
-    public void add(Product product) {
+    public boolean add(Product product) {
 
         try {
             String query = "INSERT INTO products (expire_date, product_types_type) VALUES (?,?)";
@@ -36,10 +36,13 @@ public class ProductManager {
             preparedStatement.executeUpdate();
             System.out.println(product.getProductType()+ " added successfully!");
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            return false;
+
         } finally {
             close();
         }
+        return true;
 
     }
 
@@ -102,7 +105,7 @@ public class ProductManager {
         return null;
     }
 
-    public ArrayList getAll() {
+    public ArrayList<Product> getAll() {
         try {
             ArrayList<Product> products = new ArrayList<Product>();
             String query = "SELECT  * FROM products";

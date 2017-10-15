@@ -2,15 +2,18 @@ package data;
 
 import main.ConnectionFactory;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class TransactionManager {
+public class CouponsManager {
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
 
-    public TransactionManager() {
+    public CouponsManager() {
 
     }
 
@@ -20,18 +23,18 @@ public class TransactionManager {
         return conn;
     }
 
-    public boolean add(Transaction transaction) {
+    public boolean add(Coupon coupon) {
 
             try {
-                String query = "INSERT INTO transactions (transaction_date, customers_id_customer, products_id_product) VALUES (?,?,?)";
+                String query = "INSERT INTO coupons (discount, customers_id_customer, product_types_id_types) VALUES (?,?,?)";
                 connection = getConnection();
                 preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setDate(1, transaction.getTransactionDate());
-                preparedStatement.setInt(2, transaction.getIdCustomer());
-                preparedStatement.setInt(3, transaction.getIdProduct());
+                preparedStatement.setFloat(1, coupon.getDiscount());
+                preparedStatement.setInt(2, coupon.getIdCustomer());
+                preparedStatement.setInt(3, coupon.getIdProductType());
 
                 preparedStatement.executeUpdate();
-                System.out.println( transaction.getIdCustomer() + " bought " + transaction.getIdProduct());
+                System.out.println(coupon.getIdCoupon() + "(ID coupon) coupon for (ID customer)" + coupon.getIdCustomer());
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -46,15 +49,15 @@ public class TransactionManager {
 
 
 
-    public Transaction getTransaction(int id) {
+    public Coupon get(int id) {
         try {
-            String query = "SELECT  * FROM transactions WHERE id_transaction=" + id;
+            String query = "SELECT  * FROM coupons WHERE id_coupon=" + id;
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
 
-                return new Transaction(resultSet.getInt("id_transaction"),resultSet.getDate("transaction_date"),resultSet.getInt("customers_id_customer"), resultSet.getInt("products_id_product"));
+                return new Coupon(resultSet.getInt("id_coupon"),resultSet.getFloat("discount"),resultSet.getInt("customers_id_customer"), resultSet.getInt("products_id_product"));
             } else {
                 System.out.println("ID " + id + " not found !");
             }
@@ -67,23 +70,23 @@ public class TransactionManager {
         return null;
     }
 
-    public ArrayList<Transaction> getByForeign(int id, boolean getByCustomer) {
+    public ArrayList<Coupon> getByForeign(int id, boolean getByCustomer) {
         try {
-            ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+            ArrayList<Coupon> coupons = new ArrayList<Coupon>();
             String getBy;
             if (getByCustomer)
                 getBy = "customers_id_customer";
             else
-                getBy = "products_id_product";
+                getBy = "product_types_id_types";
 
-            String query = "SELECT  * FROM transactions WHERE " + getBy +" = '" + id + "'";
+            String query = "SELECT  * FROM coupons WHERE " + getBy +" = '" + id + "'";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                transactions.add(new Transaction(resultSet.getInt("id_transaction"),resultSet.getDate("transaction_date"),resultSet.getInt("customers_id_customer"), resultSet.getInt("products_id_product")));
+                coupons.add(new Coupon(resultSet.getInt("id_coupon"),resultSet.getFloat("discount"),resultSet.getInt("customers_id_customer"), resultSet.getInt("product_types_id_types")));
             }
-            return transactions;
+            return coupons;
         }catch (SQLException e) {
             System.out.println(id + " not found !");
             //e.printStackTrace();
@@ -94,17 +97,17 @@ public class TransactionManager {
         return null;
     }
 
-    public ArrayList<Transaction> getAll() {
+    public ArrayList<Coupon> getAll() {
         try {
-            ArrayList<Transaction> transactions = new ArrayList<Transaction>();
-            String query = "SELECT  * FROM transactions";
+            ArrayList<Coupon> coupons = new ArrayList<Coupon>();
+            String query = "SELECT  * FROM coupons";
             connection = getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                transactions.add(new Transaction(resultSet.getInt("id_transaction"),resultSet.getDate("transaction_date"),resultSet.getInt("customers_id_customer"), resultSet.getInt("products_id_product")));
+                coupons.add(new Coupon(resultSet.getInt("id_coupon"),resultSet.getFloat("discount"),resultSet.getInt("customers_id_customer"), resultSet.getInt("product_types_id_types")));
             }
-            return transactions;
+            return coupons;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
