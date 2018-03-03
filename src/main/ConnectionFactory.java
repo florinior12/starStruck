@@ -10,7 +10,7 @@ public class ConnectionFactory {
 
     //  Database credentials
     private static final String USER = "root";
-    private static final String PASS = "florin12";
+    private static final String PASS = "";
 
     private static ConnectionFactory connectionFactory = null;
 
